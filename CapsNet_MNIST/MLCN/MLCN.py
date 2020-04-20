@@ -79,6 +79,7 @@ class CapsuleNetwork(nn.Module):
     # Output = [20 x 128 x 1 x 1 x 32]
     x = self.capslayertwo(x)
     x = x.squeeze().transpose(0, 1)
+    # Shape of x = [128, 20, 32]
     if(encodings is True):
         return x.reshape(x.shape[0], -1)
     # Layer 4: Capsule Layer Two
