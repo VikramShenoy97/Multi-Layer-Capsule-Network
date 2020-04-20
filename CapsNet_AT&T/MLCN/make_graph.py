@@ -4,14 +4,16 @@ from plotly import tools
 import chart_studio.plotly as py
 import plotly.graph_objs as go
 def generate_reconstructions(reconstructions, images=None, input=None):
-    reconstructions = reconstructions.view(reconstructions.shape[0], 1, 28, 28)
+    if images is not None:
+      reconstructions = reconstructions.view(*images.shape)
+      images = images * 255.
+    else:
+      reconstructions = reconstructions.view(reconstructions.shape[0], 1, 112, 92)
     reconstructions = reconstructions.detach().numpy()
     reconstructions = reconstructions * 255.
-    if images is not None:
-      images = images * 255.
     if type(input) == int:
-      rows = 5
-      columns = 4
+      rows = 2
+      columns = 2
       fig, axs = plt.subplots(rows, columns)
       r_sample = 0
       i_sample = 0
@@ -56,7 +58,7 @@ def generate_reconstructions(reconstructions, images=None, input=None):
         plt.close()
 
     elif input is None:
-        dim = 16
+        dim = 32
         rows = 2
         columns = 5
         count = -1
@@ -68,7 +70,7 @@ def generate_reconstructions(reconstructions, images=None, input=None):
                 for j in range(0, columns):
                     axs[i,j].imshow(reconstructions[dim_sample, 0, :, :], cmap="gray")
                     axs[i,j].axis("off")
-                    dim_sample = dim_sample + 11
+                    dim_sample = dim_sample + 1
             fig.savefig("Pose_Reconstructions_for_dimension_"+str(dimension+1)+".png")
             plt.show()
             plt.close()
@@ -83,7 +85,7 @@ def plot_graph(test_accuracy):
     epochs = list(range(1, len(training_loss)+1))
     for i in range(0, len(train_accuracy)):
         training_accuracy.append(train_accuracy[i].item()/100)
-    testing_accuracy = 98.64#test_accuracy
+    testing_accuracy = 80.00 #test_accuracy
     trace0 = go.Scatter(
     x = epochs,
     y = training_accuracy,
@@ -100,7 +102,7 @@ def plot_graph(test_accuracy):
     data = go.Data([trace0, trace1])
     layout = go.Layout()
     fig = go.Figure(data=data, layout=layout)
-    fig['layout']['xaxis'].update(title="Number of Epochs", range = [min(epochs), max(epochs)], dtick=len(epochs)/10, showline = True, zeroline=True,  mirror='ticks', linecolor='#636363', linewidth=2)
+    fig['layout']['xaxis'].update(title="Number of Epochs", range = [min(epochs), max(epochs)], dtick=100, showline = True, zeroline=True,  mirror='ticks', linecolor='#636363', linewidth=2)
     fig['layout']['yaxis'].update(title="Training Loss and Accuracy", range = [0, 1.05], dtick=0.1, showline = True, zeroline=True, mirror='ticks',linecolor='#636363',linewidth=2)
     py.image.save_as(fig, filename="Training_Graph.png")
 
@@ -123,14 +125,14 @@ def plot_graph(test_accuracy):
 
     return
 
-def generate_encoding_graph(test_image, test_label, images_ordered, encoding_list_ordered, epoch):
+def generate_encoding_graph(test_image, test_label, images_ordered, encoding_list_ordered, unique_labels):
   test_image *= 255
   images_ordered *= 255
-  prediction = np.argmax(encoding_list_ordered)
+  prediction = unique_labels[np.argmax(encoding_list_ordered)]
   rows = 5
-  columns = 3
+  columns = 9
   idx = 0
-  fig, axs = plt.subplots(rows, columns, figsize=(15, 10))
+  fig, axs = plt.subplots(rows, columns, figsize=(45, 10))
   for j in range(0, columns):
     for i in range(0, rows):
         if(j == 0):
@@ -143,19 +145,19 @@ def generate_encoding_graph(test_image, test_label, images_ordered, encoding_lis
         elif(idx % 2 == 0):
             axs[i,j].imshow(images_ordered[idx, : , :], cmap="gray")
             axs[i,j].axis("off")
-            color='green' if idx == prediction and idx == test_label else 'red'
+            color='green' if unique_labels[idx] == prediction and unique_labels[idx]  == test_label else 'red'
             axs[i,j].text(2, 0.35,  "Similarity Score:\n{0:.4f}".format(encoding_list_ordered[idx]), size=16, ha="center",
          transform=axs[i,j].transAxes, color=color)
             idx+= 1
         else:
             axs[i,j].imshow(images_ordered[idx, : , :], cmap="gray")
             axs[i,j].axis("off")
-            color='green' if idx == prediction and idx == test_label else 'red'
+            color='green' if unique_labels[idx] == prediction and unique_labels[idx]  == test_label else 'red'
             axs[i,j].text(2, 0.35,  "Similarity Score:\n{0:.4f}".format(encoding_list_ordered[idx]), size=16, ha="center",
          transform=axs[i,j].transAxes, color=color)
             idx+= 1
         axs[i,j].axis("off")
   plt.tight_layout(pad=2.0)
-  plt.savefig("Encodings_Analysis_"+str(epoch)+".png", cmap='gray_r')
+  plt.savefig("Encodings_Analysis.png", cmap='gray_r')
   plt.close()
   return
