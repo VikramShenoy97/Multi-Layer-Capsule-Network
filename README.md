@@ -25,6 +25,11 @@ This model was trained on Google Colab. To reproduce the results, follow the fol
 
 The above instructions apply to the other codes as well with some minor changes.
 
+## Results
+
+Results can be found in the Network Comparisons folder. One such result is displayed below.
+
+
 ## Built With
 
 * [PyTorch](https://pytorch.org)- Deep Learning Framework
