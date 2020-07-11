@@ -29,6 +29,7 @@ The above instructions apply to the other codes as well with some minor changes.
 
 Results can be found in the Network Comparisons folder. One such result is displayed below.
 
+![Encoding_37](https://github.com/VikramShenoy97/Naive-Background-Style-Transfer/blob/master/Media/Style_Transfer.jpg)
 
 ## Built With
 
