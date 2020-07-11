@@ -31,6 +31,9 @@ Results can be found in the Network Comparisons folder. One such result is displ
 
 ![Encoding_37_2](https://github.com/VikramShenoy97/Multi-Layer-Capsule-Network/blob/master/Network%20Comparison/Encoding_37_Analysis_2.png)
 
+
+More details can be found in the Results section of our [paper](https://github.com/VikramShenoy97/Multi-Layer-Capsule-Network/blob/master/Recognition_and_Representation_of%20Facial_Features_using_a_Multi-Layer_Capsule_Network.pdf).
+
 ## Built With
 
 * [PyTorch](https://pytorch.org)- Deep Learning Framework
