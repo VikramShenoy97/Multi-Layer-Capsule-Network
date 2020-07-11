@@ -29,7 +29,7 @@ The above instructions apply to the other codes as well with some minor changes.
 
 Results can be found in the Network Comparisons folder. One such result is displayed below.
 
-![Encoding_37](https://github.com/VikramShenoy97/Multi-Layer-Capsule-Network/blob/master/Network%20Comparison/Encoding_37_Analysis.png)
+![Encoding_37_2](https://github.com/VikramShenoy97/Multi-Layer-Capsule-Network/blob/master/Network%20Comparison/Encoding_37_Analysis_2.png)
 
 ## Built With
 
